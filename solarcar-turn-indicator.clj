@@ -1,6 +1,6 @@
 (configure-ferret! :command "mv solarcar-turn-indicator.cpp solarcar-turn-indicator.ino")
 (configure-runtime! FERRET_DISABLE_OUTPUT_STREAM true
-                    FERRET_MEMORY_POOL_SIZE 756
+                    FERRET_MEMORY_POOL_SIZE 256
                     FERRET_MEMORY_POOL_PAGE_TYPE char
                     FERRET_PROGRAM_MAIN program)
 
