@@ -4,11 +4,11 @@
                     FERRET_MEMORY_POOL_PAGE_TYPE char
                     FERRET_PROGRAM_MAIN program)
 
-(def left-input 7)
-(def right-input 8)
-(def left-output 9)
+(def left-input   7)
+(def right-input  8)
+(def left-output  9)
 (def right-output 10)
-(def debug-pin 13)
+(def debug-pin    13)
 
 (pin-mode left-input   :input)
 (pin-mode right-input  :input)
