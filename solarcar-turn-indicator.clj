@@ -18,6 +18,11 @@
 (pin-mode right-output :output)
 (pin-mode debug-pin    :output)
 
+(defn turn-off-output []
+  (digital-write debug-pin    :low)
+  (digital-write left-output  :low)
+  (digital-write right-output :low))
+
 (defn flash-indicator [output]
   (digital-write output    :high)
   (digital-write debug-pin :high)
@@ -37,25 +42,17 @@
   (sleep 500))
 
 (def program
-  (let [left-turn?  (fn [] (digital-read left-input))
-        right-turn? (fn [] (digital-read right-input))
-        hazard?     (fn [] (digital-read hazard-input))
-        go-to       (fn [] true)]
-    
-    (state-machine 
-     (states
-      (signal (digital-write debug-pin    :low)
-              (digital-write left-output  :low)
-              (digital-write right-output :low))
-      
-      (turn-left  (flash-indicator left-output))
-      (turn-right (flash-indicator right-output))
-      (hazard     (flash-hazard)))
-     
-     (transitions
-      (signal      hazard?      hazard
-                   left-turn?   turn-left
-                   right-turn?  turn-right)
-      (turn-left   go-to        signal)
-      (turn-right  go-to        signal)
-      (hazard      go-to        signal)))))
+  (state-machine 
+   (states
+    (signal     (turn-off-output))
+    (turn-left  (flash-indicator left-output))
+    (turn-right (flash-indicator right-output))
+    (hazard     (flash-hazard)))
+   
+   (transitions
+    (signal      #(digital-read hazard-input) hazard
+                 #(digital-read left-input)   turn-left
+                 #(digital-read right-input)  turn-right)
+    (turn-left   (fn [] true)                  signal)
+    (turn-right  (fn [] true)                  signal)
+    (hazard      (fn [] true)                  signal))))
