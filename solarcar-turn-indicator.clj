@@ -53,6 +53,6 @@
     (signal      #(digital-read hazard-input) hazard
                  #(digital-read left-input)   turn-left
                  #(digital-read right-input)  turn-right)
-    (turn-left   (fn [] true)                  signal)
-    (turn-right  (fn [] true)                  signal)
-    (hazard      (fn [] true)                  signal))))
+    (turn-left   #(identity true)             signal)
+    (turn-right  #(identity true)             signal)
+    (hazard      #(identity true)             signal))))
