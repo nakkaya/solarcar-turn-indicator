@@ -4,7 +4,7 @@
                     FERRET_MEMORY_POOL_PAGE_TYPE char
                     FERRET_PROGRAM_MAIN program)
 
-(def hazard-input 7)
+(def hazard-input 6)
 (def left-input   7)
 (def right-input  8)
 (def left-output  9)
