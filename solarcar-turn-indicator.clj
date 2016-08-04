@@ -4,41 +4,34 @@
                     FERRET_MEMORY_POOL_PAGE_TYPE char
                     FERRET_PROGRAM_MAIN program)
 
-(def hazard-input 6)
 (def left-input   7)
 (def right-input  8)
-(def left-output  9)
-(def right-output 10)
-(def debug-pin    13)
+(def hazard-input 9)
+(def right-output 12)
+(def left-output  13)
 
 (pin-mode hazard-input :input)
 (pin-mode left-input   :input)
 (pin-mode right-input  :input)
 (pin-mode left-output  :output)
 (pin-mode right-output :output)
-(pin-mode debug-pin    :output)
 
 (defn turn-off-output []
-  (digital-write debug-pin    :low)
   (digital-write left-output  :low)
   (digital-write right-output :low))
 
 (defn flash-indicator [output]
   (digital-write output    :high)
-  (digital-write debug-pin :high)
   (sleep 500)
   (digital-write output    :low)
-  (digital-write debug-pin :low)
   (sleep 500))
 
 (defn flash-hazard []
   (digital-write left-output  :high)
   (digital-write right-output :high)
-  (digital-write debug-pin    :high)
   (sleep 500)
   (digital-write left-output  :low)
   (digital-write right-output :low)
-  (digital-write debug-pin    :low)
   (sleep 500))
 
 (def program
