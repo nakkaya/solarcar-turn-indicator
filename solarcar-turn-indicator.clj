@@ -43,9 +43,9 @@
     (hazard     (flash-hazard)))
    
    (transitions
-    (signal      #(digital-read left-input)   turn-left
-                 #(digital-read right-input)  turn-right
-                 #(digital-read hazard-input) hazard)
+    (signal      #(digital-read hazard-input) hazard
+                 #(digital-read left-input)   turn-left
+                 #(digital-read right-input)  turn-right)
     (hazard      #(identity true)             signal)
     (turn-left   #(identity true)             signal)
     (turn-right  #(identity true)             signal))))
