@@ -17,21 +17,21 @@
 (pin-mode right-output :output)
 
 (defn turn-off-output []
-  (digital-write left-output  :low)
-  (digital-write right-output :low))
+  (digital-write left-output  0)
+  (digital-write right-output 0))
 
 (defn flash-indicator [output]
-  (digital-write output    :high)
+  (digital-write output    1)
   (sleep 500)
-  (digital-write output    :low)
+  (digital-write output    0)
   (sleep 500))
 
 (defn flash-hazard []
-  (digital-write left-output  :high)
-  (digital-write right-output :high)
+  (digital-write left-output  1)
+  (digital-write right-output 1)
   (sleep 500)
-  (digital-write left-output  :low)
-  (digital-write right-output :low)
+  (digital-write left-output  0)
+  (digital-write right-output 0)
   (sleep 500))
 
 (def program
