@@ -19,21 +19,21 @@
 (gpio/pin-mode right-output :output)
 
 (defn turn-off-output []
-  (gpio/digital-write left-output  :low)
-  (gpio/digital-write right-output :low))
+  (gpio/digital-write left-output  0)
+  (gpio/digital-write right-output 0))
 
 (defn flash-indicator [output]
-  (gpio/digital-write output    :high)
+  (gpio/digital-write output  1)
   (sleep 500)
-  (gpio/digital-write output    :low)
+  (gpio/digital-write output  0)
   (sleep 500))
 
 (defn flash-hazard []
-  (gpio/digital-write left-output  :high)
-  (gpio/digital-write right-output :high)
+  (gpio/digital-write left-output  1)
+  (gpio/digital-write right-output 1)
   (sleep 500)
-  (gpio/digital-write left-output  :low)
-  (gpio/digital-write right-output :low)
+  (gpio/digital-write left-output  0)
+  (gpio/digital-write right-output 0)
   (sleep 500))
 
 (def program
@@ -45,9 +45,10 @@
     (hazard     (flash-hazard)))
    
    (transitions
-    (signal      #(gpio/digital-read left-input)    turn-left
-                 #(gpio/digital-read right-input)   turn-right
-                 #(gpio/digital-read hazard-input)  hazard)
+    (signal      #(gpio/digital-read hazard-input)  hazard
+                 #(gpio/digital-read left-input)    turn-left
+                 #(gpio/digital-read right-input)   turn-right)
     (hazard      #(identity true)                   signal)
     (turn-left   #(identity true)                   signal)
     (turn-right  #(identity true)                   signal))))
+
