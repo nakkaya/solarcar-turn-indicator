@@ -4,34 +4,36 @@
                     FERRET_MEMORY_POOL_PAGE_TYPE char
                     FERRET_PROGRAM_MAIN program)
 
+(require '[ferret.arduino :as gpio])
+
 (def left-input   7)
 (def right-input  8)
 (def hazard-input 9)
 (def right-output 12)
 (def left-output  13)
 
-(pin-mode hazard-input :input)
-(pin-mode left-input   :input)
-(pin-mode right-input  :input)
-(pin-mode left-output  :output)
-(pin-mode right-output :output)
+(gpio/pin-mode hazard-input :input)
+(gpio/pin-mode left-input   :input)
+(gpio/pin-mode right-input  :input)
+(gpio/pin-mode left-output  :output)
+(gpio/pin-mode right-output :output)
 
 (defn turn-off-output []
-  (digital-write left-output  :low)
-  (digital-write right-output :low))
+  (gpio/digital-write left-output  :low)
+  (gpio/digital-write right-output :low))
 
 (defn flash-indicator [output]
-  (digital-write output    :high)
+  (gpio/digital-write output    :high)
   (sleep 500)
-  (digital-write output    :low)
+  (gpio/digital-write output    :low)
   (sleep 500))
 
 (defn flash-hazard []
-  (digital-write left-output  :high)
-  (digital-write right-output :high)
+  (gpio/digital-write left-output  :high)
+  (gpio/digital-write right-output :high)
   (sleep 500)
-  (digital-write left-output  :low)
-  (digital-write right-output :low)
+  (gpio/digital-write left-output  :low)
+  (gpio/digital-write right-output :low)
   (sleep 500))
 
 (def program
@@ -43,9 +45,9 @@
     (hazard     (flash-hazard)))
    
    (transitions
-    (signal      #(digital-read left-input)   turn-left
-                 #(digital-read right-input)  turn-right
-                 #(digital-read hazard-input) hazard)
-    (hazard      #(identity true)             signal)
-    (turn-left   #(identity true)             signal)
-    (turn-right  #(identity true)             signal))))
+    (signal      #(gpio/digital-read left-input)    turn-left
+                 #(gpio/digital-read right-input)   turn-right
+                 #(gpio/digital-read hazard-input)  hazard)
+    (hazard      #(identity true)                   signal)
+    (turn-left   #(identity true)                   signal)
+    (turn-right  #(identity true)                   signal))))
