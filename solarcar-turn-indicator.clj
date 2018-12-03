@@ -1,7 +1,4 @@
-(configure-ferret! :command "mv solarcar-turn-indicator.cpp solarcar-turn-indicator.ino")
 (configure-runtime! FERRET_DISABLE_OUTPUT_STREAM true
-                    FERRET_MEMORY_POOL_SIZE 256
-                    FERRET_MEMORY_POOL_PAGE_TYPE char
                     FERRET_PROGRAM_MAIN program)
 
 (require '[ferret.arduino :as gpio])
@@ -37,7 +34,7 @@
   (sleep 500))
 
 (def program
-  (state-machine 
+  (fsm 
    (states
     (signal     (turn-off-output))
     (turn-left  (flash-indicator left-output))
